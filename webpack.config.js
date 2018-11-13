@@ -18,7 +18,7 @@ module.exports = {
       './src/main.jsx'
     ]
   },
-
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/assets',
@@ -28,7 +28,15 @@ module.exports = {
     extensions: ['.js', '.jsx']
   },
   optimization: {
-    noEmitOnErrors: true
+    noEmitOnErrors: true,
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          name: 'vendor',
+          chunks: 'all'
+        }
+      }
+    }
   },
   devServer: { inline: true },
   devtool: 'source-map'
