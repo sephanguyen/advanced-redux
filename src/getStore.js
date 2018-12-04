@@ -1,19 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 
-import { fromJS } from 'immutable';
+import { initSagas } from './initSagas';
+import createSagaMiddleware from 'redux-saga';
+import { getPreloadedState } from './getPreloadedState';
 
-import { users } from './../server/db';
-
-import { getDefaultState } from './../server/getDefaultState';
+import thunk from 'redux-thunk';
+const sagaMiddleware = createSagaMiddleware();
 
 import { initializeDB } from './../server/db/initializeDB';
 
 import { createSocketMiddleware } from './socketMiddleware';
 
 import { RECEIVE_MESSAGE } from './actions';
-
-import { getPreloadedState } from './getPreloadedState';
-import thunk from 'redux-thunk';
 
 const io = window.io;
 
@@ -42,11 +40,13 @@ const logger = createLogger({
   stateTransformer: state => state.toJS()
 });
 
-const enhancer = compose(applyMiddleware(thunk, socketMiddleware, logger));
+const enhancer = compose(
+  applyMiddleware(sagaMiddleware, thunk, socketMiddleware, logger)
+);
 
-const currentUser = users[0];
-//const defaultState = fromJS(getDefaultState(currentUser));
-const store = createStore(reducer, getPreloadedState(), enhancer);
+console.log('Preloaded state?', preloadedState);
+const preloadedState = getPreloadedState();
+const store = createStore(reducer, preloadedState, enhancer);
 
 const socket = io();
 for (const key in socketConfigIn) {
@@ -55,6 +55,5 @@ for (const key in socketConfigIn) {
   });
 }
 
-// console.log(store.getState());
-// console.log(store.getState().toJS());
 export const getStore = () => store;
+initSagas(sagaMiddleware);

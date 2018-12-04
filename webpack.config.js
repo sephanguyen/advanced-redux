@@ -13,6 +13,7 @@ module.exports = {
   plugins: [new webpack.HotModuleReplacementPlugin()],
   entry: {
     index: [
+      '@babel/polyfill',
       '@babel/plugin-transform-regenerator',
       'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true',
       './src/main.jsx'
