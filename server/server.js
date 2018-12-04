@@ -8,9 +8,9 @@ const compiler = webpack(webpackConfig);
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import socketIO from 'socket.io';
 import { channels } from './db/Channel';
-
+import { handleRender } from './serverRenderMiddleware';
 import { users } from './db/User';
-
+import { getDefaultState } from './getDefaultState';
 let app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -31,7 +31,6 @@ app.use(
   })
 );
 
-import { getDefaultState } from './getDefaultState';
 import { initializeDB } from './db/initializeDB';
 import { simulateActivity } from './simulateActivity';
 
@@ -119,8 +118,8 @@ app.use(
   }
 );
 
-app.use(express.static('public'));
 app.use(express.static('public/css'));
+app.use('', handleRender(() => getDefaultState(currentUser)));
 
 const port = 9000;
 server.listen(port, () => {

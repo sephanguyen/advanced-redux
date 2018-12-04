@@ -12,6 +12,8 @@ import { createSocketMiddleware } from './socketMiddleware';
 
 import { RECEIVE_MESSAGE } from './actions';
 
+import { getPreloadedState } from './getPreloadedState';
+
 const io = window.io;
 
 const socketConfigOut = {
@@ -42,8 +44,8 @@ const logger = createLogger({
 const enhancer = compose(applyMiddleware(socketMiddleware, logger));
 
 const currentUser = users[0];
-const defaultState = fromJS(getDefaultState(currentUser));
-const store = createStore(reducer, defaultState, enhancer);
+//const defaultState = fromJS(getDefaultState(currentUser));
+const store = createStore(reducer, getPreloadedState(), enhancer);
 
 const socket = io();
 for (const key in socketConfigIn) {
