@@ -3,26 +3,28 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { CurrentChannelTextInput } from './CurrentChannelTextInput';
+import { submitChannelInputText, updateChannelInputText } from '../../actions';
+import { activeChannelSelector, currentUserSelector } from '../../selectors';
 
 // todo... add actions and selectors
 
 const mapStateToProps = state => {
-  const activeChannel = state.get(activeChannel);
+  const activeChannel = activeChannelSelector(state);
   return {
     activeChannel: activeChannel,
-    text: 'Demo Text',
-    fetchStatus: 'FETCHED',
-    userStatus: 'ONLINE'
+    text: activeChannel.get(`currentUserText`),
+    fetchStatus: activeChannel.get(`fetchStatus`),
+    userStatus: currentUserSelector(state).get(`status`)
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     updateText: (text, channel) => {
-      console.log('Update text...');
+      dispatch(updateChannelInputText(channel, text));
     },
     submitMessage: (text, channel) => {
-      console.log('Submit message');
+      dispatch(submitChannelInputText(channel, text));
     }
   };
 };

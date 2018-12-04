@@ -13,6 +13,7 @@ import { createSocketMiddleware } from './socketMiddleware';
 import { RECEIVE_MESSAGE } from './actions';
 
 import { getPreloadedState } from './getPreloadedState';
+import thunk from 'redux-thunk';
 
 const io = window.io;
 
@@ -41,7 +42,7 @@ const logger = createLogger({
   stateTransformer: state => state.toJS()
 });
 
-const enhancer = compose(applyMiddleware(socketMiddleware, logger));
+const enhancer = compose(applyMiddleware(thunk, socketMiddleware, logger));
 
 const currentUser = users[0];
 //const defaultState = fromJS(getDefaultState(currentUser));
