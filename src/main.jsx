@@ -3,6 +3,8 @@ import reactDOM from 'react-dom'
 import {getStore} from './getStore';
 import { App } from './App';
 import { Provider } from 'react-redux';
+import {DevTools} from './components'
+
 const store = getStore();
 
 const Main = ({state})=>(
@@ -17,6 +19,7 @@ const render = (store)=>{
         reactDOM.render(
             <div>
                 <Main state={store.getState()}/>
+                <DevTools store={store}/>
             </div>,
             document.getElementById('AppContainer'));
 };

@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-
+import { DevTools } from './components';
 import { initSagas } from './initSagas';
 import createSagaMiddleware from 'redux-saga';
 import { getPreloadedState } from './getPreloadedState';
@@ -41,7 +41,8 @@ const logger = createLogger({
 });
 
 const enhancer = compose(
-  applyMiddleware(sagaMiddleware, thunk, socketMiddleware, logger)
+  applyMiddleware(sagaMiddleware, thunk, socketMiddleware, logger),
+  DevTools.instrument()
 );
 
 console.log('Preloaded state?', preloadedState);
