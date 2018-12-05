@@ -2,12 +2,14 @@ export const combineReducers = config => {
   return (state, action) => {
     return Object.keys(config).reduce((state, key) => {
       const reducer = config[key];
+      console.log(state);
+      const previousState = state.get(key);
 
-      const previosusState = state.get(key);
-      const newValue = reducer(previosusState, action);
+      const newValue = reducer(previousState, action);
+
       if (!newValue) {
         throw new Error(
-          `A reducer return undefined when reducing key::"${key}`
+          `A reducer returned undefined when reducing key::"${key}"`
         );
       }
       return state.set(key, newValue);

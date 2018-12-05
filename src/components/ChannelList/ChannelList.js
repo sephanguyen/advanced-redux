@@ -1,6 +1,5 @@
 import React from 'react';
 import { ChannelListItem } from './ChannelListItem';
-
 export const ChannelList = ({ channels, activeChannel, setActiveChannel }) => (
   <div>
     <div>

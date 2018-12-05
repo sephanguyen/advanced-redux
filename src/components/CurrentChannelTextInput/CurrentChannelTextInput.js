@@ -33,7 +33,7 @@ export const CurrentChannelTextInput = ({
             disabled={fetchStatus !== FETCHED || userStatus === OFFLINE}
           />
           <span className="input-group-btn">
-            <button className={buttonClass} type="button">
+            <button className={buttonClass} type="submit">
               Submit
             </button>
           </span>

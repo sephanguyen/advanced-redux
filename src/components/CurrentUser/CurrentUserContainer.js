@@ -1,6 +1,7 @@
+import React from 'react';
 import { connect } from 'react-redux';
+import { updateStatus } from './../../actions';
 import { CurrentUser } from './CurrentUser';
-import { updateStatus } from '../../actions';
 
 const mapStateToProps = state => {
   const currentUser = state.get(`currentUser`);

@@ -2,12 +2,10 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 import { ContactListItem } from './ContactListItem';
-import { fromJS } from 'immutable';
-import { openContactChannel } from '../../actions';
-import { userSelector } from '../../selectors';
+import { userSelector } from './../../selectors';
+import { openContactChannel } from './../../actions';
 
 const mapStateToProps = (state, { id }) => {
-  // todo... add selector here
   const contact = userSelector(id)(state);
   return {
     name: contact.get(`name`),

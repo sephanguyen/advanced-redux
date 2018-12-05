@@ -1,6 +1,11 @@
-import { Message } from './Message';
+import React from 'react';
+
 import { connect } from 'react-redux';
-import { userSelector } from '../../selectors';
+
+import { Message } from './Message';
+
+import { userSelector } from './../../selectors';
+
 const mapStateToProps = (state, { message }) => {
   const owner = userSelector(message.get(`owner`))(state);
   return {

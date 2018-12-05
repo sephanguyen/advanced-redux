@@ -1,4 +1,4 @@
 export { channelSelector } from './channelSelector';
 export { userSelector } from './userSelector';
 export { activeChannelSelector } from './activeChannelSelector';
-export { currentUserSelector } from './currentUserSelector';
+export { currentUserSelector } from './currentUser';

@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable';
+
 import { createSelector } from 'reselect';
 
 export const userSelector = id =>
@@ -8,11 +9,12 @@ export const userSelector = id =>
       const user = userInfo.find(user => user.get(`id`) === id);
       if (user) {
         return user;
+      } else {
+        return fromJS({
+          name: '[...]',
+          fetchStatus: 'NOT_FETCHED',
+          id
+        });
       }
-      return fromJS({
-        name: '[...]',
-        id,
-        fetchStatus: 'NOT_FETCHED'
-      });
     }
   );

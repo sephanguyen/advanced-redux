@@ -4,13 +4,15 @@ import cors from 'cors';
 import webpack from 'webpack';
 import webpackConfig from './../webpack.config';
 import webpackDevMiddleware from 'webpack-dev-middleware';
+import socketIO from 'socket.io';
 const compiler = webpack(webpackConfig);
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import socketIO from 'socket.io';
+import { handleRender } from './serverRenderMiddleWare';
+
 import { channels } from './db/Channel';
-import { handleRender } from './serverRenderMiddleware';
+
 import { users } from './db/User';
-import { getDefaultState } from './getDefaultState';
+
 let app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -56,6 +58,21 @@ app.use(
   }
 );
 
+export const createMessage = ({ userID, channelID, messageID, input }) => {
+  const channel = channels.find(channel => channel.id === channelID);
+
+  const message = {
+    id: messageID,
+    content: {
+      text: input
+    },
+    owner: userID
+  };
+
+  channel.messages.push(message);
+  io.emit('NEW_MESSAGE', { channelID: channel.id, ...message });
+};
+
 app.use('/channel/:id', (req, res) => {
   res.json(channels.find(channel => channel.id === req.params.id));
 });
@@ -89,21 +106,6 @@ app.use('/status/:id/:status', ({ params: { id, status } }, res) => {
   }
 });
 
-export const createMessage = ({ userID, channelID, messageID, input }) => {
-  const channel = channels.find(channel => channel.id === channelID);
-
-  const message = {
-    id: messageID,
-    content: {
-      text: input
-    },
-    owner: userID
-  };
-
-  channel.messages.push(message);
-  io.emit('NEW_MESSAGE', { channelID: channel.id, ...message });
-};
-
 app.use(
   '/input/submit/:userID/:channelID/:messageID/:input',
   ({ params: { userID, channelID, messageID, input } }, res) => {
@@ -119,7 +121,9 @@ app.use(
 );
 
 app.use(express.static('public/css'));
-app.use('', handleRender(() => getDefaultState(currentUser)));
+
+import { getDefaultState } from './getDefaultState';
+app.use('/', handleRender(() => getDefaultState(currentUser)));
 
 const port = 9000;
 server.listen(port, () => {

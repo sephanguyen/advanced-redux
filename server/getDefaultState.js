@@ -6,8 +6,7 @@ export const getDefaultState = currentUser => {
   const defaultState = {
     currentUser: {},
     channels: [],
-    userInfo: [],
-    currentUserText: ''
+    userInfo: []
   };
 
   const userChannels = channels.filter(channel =>

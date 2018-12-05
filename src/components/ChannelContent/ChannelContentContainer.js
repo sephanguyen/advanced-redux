@@ -1,11 +1,14 @@
 import React from 'react';
+
 import { connect } from 'react-redux';
 
 import { ChannelContent } from './ChannelContent';
-import { activeChannelSelector } from '../../selectors';
+
+import { activeChannelSelector } from './../../selectors';
 
 const mapStateToProps = state => {
   const channels = state.get(`channels`);
+
   const channel = activeChannelSelector(state);
 
   return {

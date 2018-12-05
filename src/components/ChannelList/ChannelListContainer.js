@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { ChannelList } from './ChannelList';
-import { setActiveChannel } from '../../actions';
+
+import { setActiveChannel } from './../../actions/setActiveChannel';
 
 const mapStateToProps = state => ({
   channels: state.get(`channels`),
